@@ -57,9 +57,15 @@ depmod -a -b $INSTALLDIR $KR
 # Install kernel, dtb and overlays
 mkdir -p $INSTALLDIR/boot/overlays
 cp arch/arm64/boot/Image $INSTALLDIR/boot/kernel8.img
-cp arch/arm64/boot/dts/broadcom/bcm2710-rpi-3-b.dtb $INSTALLDIR/boot/
-cp arch/arm64/boot/dts/broadcom/bcm2710-rpi-3-b-plus.dtb $INSTALLDIR/boot/
+cp arch/arm64/boot/dts/broadcom/*.dtb $INSTALLDIR/boot/
 cp arch/arm64/boot/dts/overlays/*.dtbo $INSTALLDIR/boot/overlays/
+
+# Build the armstubs
+cd $TOOLS/armstubs
+PATH=${PATH}:$(dirname "${CROSS_COMPILE}") make armstub8-gic.bin CC8="${CROSS_COMPILE}gcc"
+
+mkdir -p $INSTALLDIR/boot/firmware
+cp $TOOLS/armstubs/armstub8-gic.bin $INSTALLDIR/boot/
 
 # Create tar file, all kernel files
 TARFILE1=$KR.tar.gz
