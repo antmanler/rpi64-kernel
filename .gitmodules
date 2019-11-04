@@ -1,0 +1,3 @@
+[submodule "defconfigs/sakaki"]
+	path = defconfigs/sakaki
+	url = https://github.com/sakaki-/bcm2711-kernel-bis.git
